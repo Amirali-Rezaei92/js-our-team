@@ -1,15 +1,9 @@
-// Seleziona l'area della pagina dove verranno inserite tutte le card dei membri del team
 const teamMembersArea = document.querySelector('#team-members-area');
 
-
-// Funzione che crea una singola card per un membro del team
 function createTeamMemberCard(member) {
-
-    // Crea un nuovo elemento <div> che rappresenterà la card
     const cardMember = document.createElement("div");
-    cardMember.classList.add("team-member"); // Aggiunge la classe CSS per lo stile
+    cardMember.classList.add("team-member");
 
-    // Inserisce all'interno della card l'immagine e le informazioni del membro
     cardMember.innerHTML = `
         <div class="image-info">
             <img src="${member.img}" alt="${member.name}">
@@ -20,52 +14,44 @@ function createTeamMemberCard(member) {
             <p class="mail-employee">${member.email}</p>
         </div>
     `;
-
-    return cardMember; // Restituisce la card pronta da aggiungere al DOM
+    return cardMember;
 }
-
-
-// Funzione che mostra tutti i membri del team nella pagina
 function renderTeam (){
-
-    // Svuota l'area prima di ricreare tutte le card (evita duplicati)
     teamMembersArea.innerHTML = ""; 
     
-    // Cicla su ogni membro dell'array teamMembers
-    for (const member of teamMembers) {
-
-        // Crea una card per il membro corrente
-        const card = createTeamMemberCard(member);
-
-        // Aggiunge la card all'area visibile nella pagina
-        teamMembersArea.appendChild(card);
-    }
+for (const member of teamMembers) {
+    const card = createTeamMemberCard(member);
+    teamMembersArea.appendChild(card);
+}
 }
 
-// Mostra i membri iniziali appena la pagina viene caricata
 renderTeam();
 
-
-// Seleziona il form per aggiungere un nuovo membro
 const form = document.querySelector('.form-new-member');
 
 
-// Gestisce l'evento di invio del form
+
 form.addEventListener('submit', (event) => {
-
-    event.preventDefault(); // Impedisce il refresh della pagina
-
-    // Aggiunge un nuovo oggetto (nuovo membro) all'array teamMembers
+    event.preventDefault();
     teamMembers.push({
-        name: form.name.value,   // Legge il valore del campo "name"
-        role: form.role.value,   // Legge il valore del campo "role"
-        email: form.email.value, // Legge il valore del campo "email"
-        img: form.img.value      // Legge il valore del campo "img"
+        name: capitalizeWords(form.name.value),
+        role: form.role.value,
+        email: form.email.value,
+        img: form.img.value
     });
-
-    // Aggiorna la lista visibile dei membri
     renderTeam();
-
-    // Ripulisce i campi del form
     form.reset();
 });
+
+
+function capitalizeWords(str) {str = str.trim();
+    const words = str.split(" ");
+    const fixedWords = [];
+    for (let word of words) {
+        if (word === "") continue;
+        const fixedWord = word[0].toUpperCase() + word.slice(1).toLowerCase();
+        fixedWords.push(fixedWord);
+    }
+    return fixedWords.join(" ");
+}
+
