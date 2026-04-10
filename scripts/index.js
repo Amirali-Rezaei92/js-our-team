@@ -18,6 +18,7 @@ function createTeamMemberCard(member) {
 }
 function renderTeam (){
     teamMembersArea.innerHTML = ""; 
+    
 for (const member of teamMembers) {
     const card = createTeamMemberCard(member);
     teamMembersArea.appendChild(card);
@@ -26,4 +27,19 @@ for (const member of teamMembers) {
 
 renderTeam();
 
+const form = document.querySelector('.form-new-member');
+
+
+
+form.addEventListener('submit', (event) => {
+    event.preventDefault();
+    teamMembers.push({
+        name: form.name.value,
+        role: form.role.value,
+        email: form.email.value,
+        img: form.img.value
+    });
+    renderTeam();
+    form.reset();
+});
 
